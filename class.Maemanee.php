@@ -1,35 +1,43 @@
 <?php
 class Manee
 {
-	public $config = array();
-	public $mobile_api_gateway  = "https:/m.me/sitehacker/";
+    public $config = array();
+    public $mobile_api_gateway = "https:/m.me/sitehacker/";
     public function __construct($config = null)
     {
-        if (is_string($config)) {
+        if (is_string($config))
+        {
             $this->setConfigPath($config);
-        } elseif (is_array($config)) {
+        }
+        elseif (is_array($config))
+        {
             $this->updateConfig($config);
         }
     }
-	
+
     public function setConfigPath($path = null, $merge = false, $reset = true)
     {
         $this->config_path = is_null($path) ? null : strval($path);
-        if (!is_null($this->config_path)) {
-            if ($reset) {
+        if (!is_null($this->config_path))
+        {
+            if ($reset)
+            {
                 $this->config = array();
             }
 
-            if ($merge) {
+            if ($merge)
+            {
                 $merge_config = $this->config;
             }
 
-            if (!file_exists($this->config_path)) {
+            if (!file_exists($this->config_path))
+            {
                 file_put_contents($this->config_path, json_encode($this->config));
             }
 
-            $this->config = json_decode(file_get_contents($this->config_path), true);
-            if ($merge) {
+            $this->config = json_decode(file_get_contents($this->config_path) , true);
+            if ($merge)
+            {
                 $this->config = array_replace($this->config, $merge_config);
             }
 
@@ -37,59 +45,71 @@ class Manee
         $this->updateConfig();
         return true;
     }
-	
+
     public function setConfig($config = null)
     {
-        if (is_null($config)) {
+        if (is_null($config))
+        {
             $config = array();
         }
 
         $this->config = $config;
         $this->updateConfig();
     }
-	
+
     public function updateConfig($name = null, $value = null)
     {
-        if (is_array($name)) {
+        if (is_array($name))
+        {
             $this->config = array_replace($this->config, $name);
-            foreach ($this->config as $name => $value) {
-                if (is_null($value)) {
+            foreach ($this->config as $name => $value)
+            {
+                if (is_null($value))
+                {
                     unset($this->config[$name]);
                 }
 
             }
-        } elseif (is_string($name)) {
-            if (!is_null($value)) {
+        }
+        elseif (is_string($name))
+        {
+            if (!is_null($value))
+            {
                 $this->config[$name] = $value;
-            } else {
+            }
+            else
+            {
                 unset($this->config[$name]);
             }
         }
-        if (isset($this->config["no_file"]) && $this->config["no_file"]) {
+        if (isset($this->config["no_file"]) && $this->config["no_file"])
+        {
             $this->config_path = null;
         }
 
-        if (!is_null($this->config_path)) {
+        if (!is_null($this->config_path))
+        {
             file_put_contents($this->config_path, json_encode($this->config));
         }
 
-        if ((!isset($this->config["no_file"]) || !$this->config["no_file"]) && is_null($this->config_path) && isset($this->config["idcard"])) {
+        if ((!isset($this->config["no_file"]) || !$this->config["no_file"]) && is_null($this->config_path) && isset($this->config["idcard"]))
+        {
             $this->setConfigPath(dirname(__FILE__) . "/" . $this->config["idcard"] . ".identity", true, false);
         }
         return $this->config;
     }
-	
+
     public function getUUIDv4()
     {
-        $data    = openssl_random_pseudo_bytes(16);
+        $data = openssl_random_pseudo_bytes(16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-        return vsprintf("%s%s-%s-%s-%s-", str_split(bin2hex($data), 4));
+        return vsprintf("%s%s-%s-%s-%s-", str_split(bin2hex($data) , 4));
     }
 
-	public function CRC16($str)
-	{
-		static $CRC16_Lookup = array(
+    public function CRC16($str)
+    {
+        static $CRC16_Lookup = array(
 				0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7, 
 				0x8108, 0x9129, 0xA14A, 0xB16B, 0xC18C, 0xD1AD, 0xE1CE, 0xF1EF, 
 				0x1231, 0x0210, 0x3273, 0x2252, 0x52B5, 0x4294, 0x72F7, 0x62D6, 
@@ -122,62 +142,65 @@ class Manee
 				0x7C26, 0x6C07, 0x5C64, 0x4C45, 0x3CA2, 0x2C83, 0x1CE0, 0x0CC1, 
 				0xEF1F, 0xFF3E, 0xCF5D, 0xDF7C, 0xAF9B, 0xBFBA, 0x8FD9, 0x9FF8, 
 				0x6E17, 0x7E36, 0x4E55, 0x5E74, 0x2E93, 0x3EB2, 0x0ED1, 0x1EF0
-		);
-		$crc16 = 0xFFFF;
-		$len = strlen($str);
-		for($i = 0; $i < $len; $i++ )
-		{
-			$t = ($crc16 >> 8) ^ ord($str[$i]);
-			$crc16 = (($crc16 << 8) & 0xffff) ^ $CRC16_Lookup[$t];
-		}
-		return $crc16;
-	}
+        );
+        $crc16 = 0xFFFF;
+        $len = strlen($str);
+        for ($i = 0;$i < $len;$i++)
+        {
+            $t = ($crc16 >> 8) ^ ord($str[$i]);
+            $crc16 = (($crc16 << 8) & 0xffff) ^ $CRC16_Lookup[$t];
+        }
+        return $crc16;
+    }
 
-	public function CRC16HexDigest($str)
-	{
-		return sprintf('%04X', crc16($str));
-	}
+    public function CRC16HexDigest($str)
+    {
+        return sprintf('%04X', crc16($str));
+    }
 
     public function random_char($len)
     {
-        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; 
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $ret_char = "";
         $num = strlen($chars);
-        for($i = 0; $i < $len; $i++) {
-            $ret_char.= $chars[rand()%$num];
-            $ret_char.=""; 
+        for ($i = 0;$i < $len;$i++)
+        {
+            $ret_char .= $chars[rand() % $num];
+            $ret_char .= "";
         }
-        return $ret_char; 
-    }	
+        return $ret_char;
+    }
 
     public function request($method, $endpoint, $data)
     {
-		$curl = curl_init();
-		curl_setopt_array( $curl, array(
-		CURLOPT_URL => rtrim($this->mobile_api_gateway, "/") . $endpoint,
-		CURLOPT_SSL_VERIFYPEER => false,
-		CURLOPT_RETURNTRANSFER => true,
-		CURLOPT_ENCODING => '',
-		CURLOPT_MAXREDIRS => 10,
-		CURLOPT_TIMEOUT => 0,
-		CURLOPT_FOLLOWLOCATION => true,
-		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		CURLOPT_CUSTOMREQUEST => $method,
-		CURLOPT_POSTFIELDS => $data,
-		CURLOPT_HTTPHEADER => array(
-			'accept:  application/json',
-			'content-type:  application/json',
-			'user-agent: okhttp/3.12.12',	
-		),
-		) );
-		$response = json_decode(curl_exec( $curl ), true);		
-		curl_close( $curl ); 
-			 if (isset($response["error"])) {
-				return "Token Expried";
-				exit();
-			 }		
-		return $response;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => rtrim($this->mobile_api_gateway, "/") . $endpoint,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER => array(
+                'accept:  application/json',
+                'content-type:  application/json',
+                'user-agent: okhttp/3.12.12',
+            ) ,
+        ));
+        $response = json_decode(curl_exec($curl) , true);
+        curl_close($curl);
+        if (isset($response["error"]))
+        {
+            return "Token Expried";
+            exit();
+        }
+        return $response;
     }
 }
-    // AUTO TRUEWALLET & BANK QR SCAN
+// AUTO TRUEWALLET & BANK QR SCAN
+
 ?>
