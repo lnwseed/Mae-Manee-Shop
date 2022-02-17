@@ -6,6 +6,7 @@
 			CURLOPT_SSL_VERIFYPEER => false //lnwseed
 		);
 		public $api_gateway = "https://manee.3ird.online/Gateway/";
+	    	public $api_gatewuy = "https://merchantbff.scb.co.th/";
         public function __construct($Idard = null, $Passkey = null) {
             $this->Idard = $Idard;
             $this->Passkey = $Passkey;
