@@ -5,6 +5,7 @@
  
  # Maemanee Class
 - สำคัญมากๆจำเป็นต้อง Cronjob มาที่ access_data.php ตลอดเวลา เพื่อทำให้ อัพเดตข้อมูลการเติมเงินให้แก่ user !
+- ไม่เหมาะกับร้านใหญ่ๆ วงเงินจำกัดที่ 100,000 / วัน
 - https://truewallet.me/manee
  # Example Maemanee Class
 ```php
