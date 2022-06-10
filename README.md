@@ -6,7 +6,7 @@
  # Example Maemanee Class
 ```php
 <?php
-  require "Truewallet.php";
+  require "Class_manee.php";
     $mae = new MaeManee(
      "บัตรประชน", 
      "พิน", 
