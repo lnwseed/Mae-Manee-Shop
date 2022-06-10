@@ -67,6 +67,7 @@ class MaeManee
 
     public function SubmitLoginOTP($otp_ref)
     {
+        if (is_null($otp_ref)) return false; 
         $postdata = [];
         $postdata["idcard"] = $this->idcard;
         $postdata["pin"] = $this->pin;
@@ -86,6 +87,7 @@ class MaeManee
 
     public function GetCreate($user_ref, $amount)
     {
+        if (is_null($user_ref) || is_null($amount)) return false; 
         $postdata = [];
         $postdata["idcard"] = $this->idcard;
         $postdata["pin"] = $this->pin;
