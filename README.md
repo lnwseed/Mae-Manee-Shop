@@ -5,7 +5,7 @@
  
  # Maemanee Class
 - สำคัญมากๆจำเป็นต้อง Cronjob มาที่ access_data.php ตลอดเวลา เพื่อทำให้ อัพเดตข้อมูลการเติมเงินให้แก่ user !
-
+- https://truewallet.me/manee
  # Example Maemanee Class
 ```php
 <?php
