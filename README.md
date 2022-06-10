@@ -23,3 +23,29 @@
     print_r($row);
 ?>
 ```
+
+# Example GetQrcode
+```php
+<?php
+  require "Class_manee.php";
+    $mae = new MaeManee(
+     "บัตรประชน", 
+     "พิน", 
+     "เบอร์โทร"
+    );
+
+    $row = $mae->GetQrcode(
+       $bill_id,
+       $bill_ref1,
+       $bill_ref3,
+       $orderId,
+       $amount
+       );
+?>
+
+				<div class="text-center promptpay-box"><img style="display: block;-webkit-user-select: none;max-width: 100%;margin: auto;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&amp;data=<?= $row ?>">
+				<br>
+				<h6>** สแกน QR Code ด้วยแอพธนาคารเพื่อชำระเงิน **</h6>
+				</div>
+    
+```
