@@ -114,5 +114,25 @@ class MaeManee
         $postdata["type"] = "SuccessBill";
         return $this->Connect($postdata);
     }
+
+    public function GetDetailTransaction($orderid)
+    {
+        $postdata = [];
+        $postdata["idcard"] = $this->idcard;
+        $postdata["pin"] = $this->pin;
+        $postdata["type"] = "DetailTransaction";
+		$postdata["orderid"] = $orderid;
+        return $this->Connect($postdata);
+    }
+
+    public function GetDeteTransaction($orderid)
+    {
+        $postdata = [];
+        $postdata["idcard"] = $this->idcard;
+        $postdata["pin"] = $this->pin;
+        $postdata["type"] = "DeteTransaction";
+		$postdata["orderid"] = $orderid;
+        return $this->Connect($postdata);
+    }    
 }
 ?> 
