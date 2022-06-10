@@ -10,7 +10,7 @@
  # Example Maemanee Class
 ```php
 <?php
-  require "Class_manee.php";
+  require "class.Maemanee.php";
     $mae = new MaeManee(
      "บัตรประชน", 
      "พิน", 
@@ -27,7 +27,7 @@
 # Example GetQrcode
 ```php
 <?php
-  require "Class_manee.php";
+  require "class.Maemanee.php";
     $mae = new MaeManee(
      "บัตรประชน", 
      "พิน", 
